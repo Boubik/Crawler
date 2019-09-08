@@ -10,6 +10,7 @@
 
 <body>
 <?php
+$before = microtime(true);
 include "functions.php";
 ini_set('max_execution_time', 0);
 $configs = include('config.php');
@@ -48,6 +49,8 @@ echo '<div id="pages">';
 $search = $_GET["q"];
 $count_pages = count_search($conn, $search);
 $maxpage = (int)($count_pages / $per_page) + 1;
+$after = microtime(true);
+echo $count_pages . " results found (" . substr($after-$before, 0, 5) . " s)<br>";
 $i = 1;
 if($maxpage > 1){
     if ($page  > 1) {
@@ -57,7 +60,7 @@ if($maxpage > 1){
         if($maxpage != 0){
             do{
                 if ($i == 1) {
-                    echo "stránky: ";
+                    echo "pages: ";
                     echo "<a href=\"/search.php?q=" . $search . "&page=" . $i . "\">" . $i . "</a>";
                 }else{
                     echo ", ";
