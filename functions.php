@@ -125,11 +125,17 @@ function save_to_log(String $log_text)
  * search in db
  * @param   PDO  $coon     db
  * @param   String  $search         search
- * @return  mixed   $conn
+ * @return  Array
  */
-function search(PDO $conn, String $search)
+function search(PDO $conn, String $search, $page = 1, $per_page = 30)
 {
-    $sql = "SELECT * FROM `site` WHERE `url` LIKE '%" . $search . "%' OR `title` LIKE '%" . $search . "%' OR `fav` LIKE '%" . $search . "%' OR `h` LIKE '%" . $search . "%' OR `s/b` LIKE '%" . $search . "%' OR `p` LIKE '%" . $search . "%' OR `div` LIKE '%" . $search . "%' ORDER BY `rank` DESC";
+    $page -= 1;
+    if ($page == 0) {
+        $skip = 0;
+    } else {
+        $skip = $page * $per_page;
+    }
+    $sql = "SELECT * FROM `site` WHERE `url` LIKE '%" . $search . "%' OR `title` LIKE '%" . $search . "%' OR `fav` LIKE '%" . $search . "%' OR `h` LIKE '%" . $search . "%' OR `s/b` LIKE '%" . $search . "%' OR `p` LIKE '%" . $search . "%' OR `div` LIKE '%" . $search . "%' ORDER BY `rank` DESC LIMIT " . $skip . ", " . $per_page;
     //echo $sql;
     $sql = $conn->prepare($sql);
     $sql->execute();
@@ -138,6 +144,23 @@ function search(PDO $conn, String $search)
         $array[] = $row;
     }
     return $array;
+}
+
+/**
+ * search in db
+ * @param   PDO  $coon     db
+ * @param   String  $search         search
+ * @return  Array
+ */
+function count_search(PDO $conn, String $search)
+{
+    $sql = "SELECT COUNT(`url`) as 'count' FROM `site` WHERE `url` LIKE '%" . $search . "%' OR `title` LIKE '%" . $search . "%' OR `fav` LIKE '%" . $search . "%' OR `h` LIKE '%" . $search . "%' OR `s/b` LIKE '%" . $search . "%' OR `p` LIKE '%" . $search . "%' OR `div` LIKE '%" . $search . "%' ORDER BY `rank` DESC";
+    //echo $sql;
+    $sql = $conn->prepare($sql);
+    $sql->execute();
+    $array = array();
+    $row = $sql->fetch();
+    return $row["count"];
 }
 
 /**

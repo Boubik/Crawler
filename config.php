@@ -12,4 +12,7 @@ return array(
 
 //stop
     'stop' => 0,                                                              // stop after x loop (0 infinit)
+
+//search
+    'per_page' => 30,                                                              // default 30
 );
