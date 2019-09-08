@@ -8,7 +8,7 @@ $conn = connect_to_db($configs["servername"], $configs["dbname"], $configs["user
 $already_crawled = alredy_crawled($conn);
 $already_crawled_update = array();
 $to_be_crawled = array();
-$to_be_crawled[] ="https://cs.wikipedia.org/wiki/Hlavn%C3%AD_strana";
+$to_be_crawled[] ="https://www.youtube.com";
 
 $i = 0;
 while(isset($to_be_crawled[$i])){

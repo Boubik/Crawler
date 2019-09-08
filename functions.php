@@ -488,8 +488,10 @@ function fix_url(string $l, $url)
         return parse_url($url)["scheme"] . "://" . parse_url($url)["host"] . "/" . $l;
     } else if (substr($l, 0, 5) != "https" and substr($l, 0, 4) != "http") {
         return parse_url($url)["scheme"] . "://" . parse_url($url)["host"] . "/" . $l;
+    } else if (substr($l, 0, 11) == "javascript:") {
+        return "";
     }
-    //echo " new: ".$l."<br><br>";
+    
+    return $l;
 
-    return "";
 }
